@@ -30,16 +30,18 @@ router.use(check_user);
 
 router.post('/signin', function (req, res) {
     console.log(req.body);
+    var id=req.body.id;
     var name=req.body.email;
     var pass= req.body.password;
     var dec_pass = atob(pass);
-    var encrypted_pass = cryptr.encrypt(dec_pass);
-    var sql="SELECT Id, Name, Email FROM `user` WHERE `Email`='"+name+"' and Password = '"+encrypted_pass+"'";
+    // Si On compte un jour encrypter les mdps
+    // var encrypted_pass = cryptr.encrypt(dec_pass);
+    var sql="SELECT Id, Name, Email FROM `user` WHERE `Email`='"+name+"' and Password = '"+pass+"'";
 
     db.query(sql, function(err, results){
         if(results !== ""){
             var data = JSON.stringify(results);
-            var secret = 'TOPSECRETTTTT';
+            var secret = process.env.KEY_SECRET;
             var now = Math.floor(Date.now() / 1000),
                 iat = (now - 10),
                 expiresIn = 3600,
@@ -52,7 +54,7 @@ router.post('/signin', function (req, res) {
                 audience : 'TEST',
                 data : data
             };
-
+            console.log("data are", data);
             jwt.sign(payload, secret, { algorithm: 'HS256', expiresIn : expiresIn}, function(err, token) {
                 if (err){
                     res.json({

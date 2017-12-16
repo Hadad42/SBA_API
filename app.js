@@ -57,18 +57,21 @@ app.use(function (req, res, next) {
     next();
 });
 
+
+
 //-------------------------------------routes-----------------------------------------------------------------------
 //var user        = require('./api/routes/user');
 var index = require('./api/routes/index');
 var reg_handler = require('./api/routes/registrationHandler');
 var con_handler = require('./api/routes/connectionHandler');
+var card_handler = require('./api/routes/cardsHandler');
 
 app.use('/', index);
 app.post('/signup', reg_handler);
 app.post('/signin', con_handler);
 //app.use('/signup', reg_handler);
 
-
+app.get('/card', card_handler);
 
 /*
 error handler

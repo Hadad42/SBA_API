@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var jwt_handler = require('./check_jwt');
-
+var jwt_handler = require('../controllers/check_jwt');
 router.use(jwt_handler);
 
 router.get('/card', function (req, res, next) {

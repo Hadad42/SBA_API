@@ -10,7 +10,9 @@ var check_jwt=function(req, res, next) {
             return res.json({ success: false, message: 'Failed to authenticate token.' });
         } else {
             // if everything is good, save to request for use in other routes
-            req.decoded = decoded;
+            var data = JSON.parse(decoded.data);
+            req.decoded_data = data[0];
+            console.log(decoded.data);
             next();
         }});
 };

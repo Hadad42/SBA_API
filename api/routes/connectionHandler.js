@@ -36,11 +36,22 @@ router.post('/signin', function (req, res) {
     var dec_pass = atob(pass);
     // Si On compte un jour encrypter les mdps
     // var encrypted_pass = cryptr.encrypt(dec_pass);
-    var sql="SELECT Id, Name, Email FROM `user` WHERE `Email`='"+name+"' and Password = '"+pass+"'";
+    var sql="SELECT Id, Name, Email FROM `user` WHERE `Email`='"+name+"' and `Password` = '"+pass+"'";
 
-    db.query(sql, function(err, results){
-        if(results !== ""){
-            var data = JSON.stringify(results);
+    db.query(sql,function(err, results){
+        if (results !== ""){
+
+            var data = JSON.stringify(results) ;
+            if (data === "[]") {
+                res.json({
+                    "results":
+                        {
+                            "status": false,
+                            "message" : 'Password Incorrect'
+                        }
+                });
+                res.end();
+            }
             var secret = process.env.KEY_SECRET;
             var now = Math.floor(Date.now() / 1000),
                 iat = (now - 10),
@@ -92,7 +103,7 @@ router.post('/signin', function (req, res) {
                 }
             });
         }
-        else if(results === ""){
+        else {
             res.json({
                 "results":
                     {

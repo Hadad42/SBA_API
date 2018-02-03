@@ -4,12 +4,12 @@ var jwt_handler = require('../../controllers/check_jwt');
 
 router.use(jwt_handler);
 
-router.get("/getInformation", function (req, res, next) {
+router.get("/getRank", function (req, res, next) {
     var player_id = req.decoded_data.Id;
 
-    var sql_data = "SELECT user.Name, user.Email, user.Is_activate, user.Is_staff, player.Gold, player.Dust, rank.Victory, rank.Equality, rank.Defeat\
-    FROM user, player, rank \
-    WHERE user.ID = " + player_id + " AND player.ID = " + player_id + " AND rank.User_id = " + player_id + "";
+    var sql_data = "SELECT rank.Victory, rank.Equality, rank.Defeat\
+    FROM rank \
+    WHERE rank.User_id = " + player_id + "";
 
     var query = db.query(sql_data, function (err, result) {
         if (err) {
@@ -33,4 +33,3 @@ router.get("/getInformation", function (req, res, next) {
 });
 
 module.exports = router;
-

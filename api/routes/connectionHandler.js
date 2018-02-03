@@ -47,7 +47,7 @@ router.post('/signin', function (req, res) {
                     "results":
                         {
                             "status": false,
-                            "message" : 'Password Incorrect'
+                            "message" : 'Password incorrect'
                         }
                 });
                 res.end();

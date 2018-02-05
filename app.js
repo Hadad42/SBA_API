@@ -63,7 +63,7 @@ app.use(function (req, res, next) {
 var index = require('./api/routes/index');
 var reg_handler = require('./api/routes/registrationHandler');
 var con_handler = require('./api/routes/connectionHandler');
-var card_handler = require('./api/routes/cardsHandler');
+var card_handler = require('./api/routes/Card/checkCardsHandler');
 var player_handler = require('./api/routes/Player/playerHandler');
 var player_dust = require('./api/routes/Player/addDust');
 var player_gold = require('./api/routes/Player/addGold');
@@ -78,6 +78,13 @@ var rankedPartyWin = require('./api/routes/Ranked Party/win');
 var rankedPartyEquality = require('./api/routes/Ranked Party/equality');
 var rankedPartyDefeat = require('./api/routes/Ranked Party/defeat');
 
+var deck_create = require('./api/routes/Deck/createDeckHandler');
+//var deck_name = require('./api/routes/Deck/updateName');
+var deck_modify = require('./api/routes/Deck/modifyDeckHandler');
+//var deck_destroy = require('./api/routes/Deck/updateName');
+var deck_check = require('./api/routes/Deck/checkDeckHandler');
+
+//Registration Handler
 app.use('/', index);
 app.post('/signup', reg_handler);
 app.post('/signin', con_handler);
@@ -99,9 +106,6 @@ app.post('/rankedPartyDefeat', rankedPartyDefeat);
 
 //Card Handler
 app.get('/card', card_handler);
-
-//Article Handler
-app.get('/getArticle', article_handler);
 
 /*
 error handler

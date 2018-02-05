@@ -70,6 +70,13 @@ var player_gold = require('./api/routes/Player/addGold');
 var player_name = require('./api/routes/Player/updateName');
 var player_mail = require('./api/routes/Player/updateMail');
 var player_password = require('./api/routes/Player/updatePassword');
+var getRank = require('./api/routes/Player/getRank');
+
+var article_handler = require('./api/routes/articleHandler');
+
+var rankedPartyWin = require('./api/routes/Ranked Party/win');
+var rankedPartyEquality = require('./api/routes/Ranked Party/equality');
+var rankedPartyDefeat = require('./api/routes/Ranked Party/defeat');
 
 app.use('/', index);
 app.post('/signup', reg_handler);
@@ -83,9 +90,18 @@ app.post('/addGold', player_gold);
 app.post('/updateMail', player_mail);
 app.post('/updateName', player_name);
 app.post('/updatePassword', player_password);
+app.get('/getRank', getRank);
+
+//ranked Party
+app.post('/rankedPartyWin', rankedPartyWin);
+app.post('/rankedPartyEquality', rankedPartyEquality);
+app.post('/rankedPartyDefeat', rankedPartyDefeat);
 
 //Card Handler
 app.get('/card', card_handler);
+
+//Article Handler
+app.get('/getArticle', article_handler);
 
 /*
 error handler

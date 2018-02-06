@@ -75,6 +75,7 @@ router.post('/signin', function (req, res) {
                                 "message" : 'Error occurred while generating token'
                             }
                     });
+                    res.end();
                 }
                 else {
                     if(token !== false){
@@ -82,7 +83,7 @@ router.post('/signin', function (req, res) {
                         res.json({
                             "results":
                                 {
-                                    "status": 200,
+                                    "status": 201,
                                     "token" : token,
                                     "user" : results[0]
                                 }

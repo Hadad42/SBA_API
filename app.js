@@ -107,6 +107,10 @@ app.post('/rankedPartyDefeat', rankedPartyDefeat);
 //Card Handler
 app.get('/card', card_handler);
 
+
+//Deck Handler
+app.post("/createDeck", deck_create);
+app.put("/updateDeck", deck_modify);
 /*
 error handler
 if error is encountered, display error and stacktrace

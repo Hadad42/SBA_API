@@ -1,29 +1,22 @@
 var express = require('express');
 var router = express.Router();
-var jwt_handler = require('../../controllers/check_jwt');
 
-router.use(jwt_handler);
+router.get("/article/getAll", function (req, res, next) {
 
-router.put("/updatePassword", function (req, res, next) {
-    var user_id = req.decoded_data.Id;
-    var oldPassword = req.body.oldPassword;
-    var newPassword = req.body.newPassword;
-
-    var sql_data = 'UPDATE user \
-    SET user.Password = "' + newPassword + '" \
-    WHERE user.ID = "' + user_id + '" AND user.Password = "' + oldPassword + '"';
+    var sql_data = "SELECT * \
+    FROM article";
 
     var query = db.query(sql_data, function (err, result) {
         if (err) {
             throw err;
         }
         l = result.length;
-        if (l === 0 || result.affectedRows !== 1) {
+        if (l === 0) {
             res.json({
                 "results":
                     {
                         "status": 403,
-                        "message" : 'User does not exist'
+                        "message" : 'An error as occurred, try again later'
                     }
             });
             res.end();
@@ -33,13 +26,12 @@ router.put("/updatePassword", function (req, res, next) {
                 "results":
                     {
                         "status": 200,
-                        "message" : 'Password has been change successfully'
+                        "data": result
                     }
             });
             res.end();
         }
     });
 });
-
 
 module.exports = router;

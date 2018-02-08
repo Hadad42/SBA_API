@@ -4,7 +4,7 @@ var jwt_handler = require('../../controllers/check_jwt');
 
 router.use(jwt_handler);
 
-router.post("/addGold", function (req, res, next) {
+router.put("/addGold", function (req, res, next) {
     var player_id = req.decoded_data.Id;
     var gold = req.body.gold;
 
@@ -18,13 +18,21 @@ router.post("/addGold", function (req, res, next) {
         }
         l = result.length;
         if (l === 0) {
-            return res.status(403).send(JSON.parse('{ "message": "User does not exist"} '));
+            res.json({
+                "results":
+                    {
+                        "status": 403,
+                        "message" : 'User does not exist'
+                    }
+            });
+            res.end();
         }
         else {
             res.json({
                 "results":
                     {
-                        "status": true
+                        "status": 200,
+                        "message" : 'The amount of gold has been changed successfully'
                     }
             });
             res.end();

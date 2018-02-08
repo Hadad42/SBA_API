@@ -17,13 +17,20 @@ router.get("/getRank", function (req, res, next) {
         }
         l = result.length;
         if (l === 0) {
-            return res.status(403).send(JSON.parse('{ "message": "User does not exist"} '));
+            res.json({
+                "results":
+                    {
+                        "status": 403,
+                        "message" : 'User does not exist'
+                    }
+            });
+            res.end();
         }
         else {
             res.json({
                 "results":
                     {
-                        "status": true,
+                        "status": 200,
                         "data": result
                     }
             });

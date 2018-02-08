@@ -1,17 +1,16 @@
 var express = require('express');
 var router = express.Router();
-var jwt_handler = require('../../controllers/check_jwt');
 
-router.use(jwt_handler);
-
-router.put("/updateMail", function (req, res, next) {
-    var user_id = req.decoded_data.Id;
-    var oldMail = req.body.oldMail;
-    var newMail = req.body.newMail;
+router.put("/user/update", function (req, res, next) {
+    var user_id = req.body.Id;
+    var newName = req.body.name;
+    var newPassword = req.body.password;
+    var newMail = req.body.mail;
+    var is_staff = req.body.Is_staff;
 
     var sql_data = 'UPDATE user \
-    SET user.Email = "' + newMail + '" \
-    WHERE user.ID = "' + user_id + '" AND user.Email = "' + oldMail + '"';
+    SET user.Email = "' + newMail + '", user.Name = "'+newName+'", user.Password = "'+ newPassword +'", user.Is_staff = "'+is_staff+ '"  \
+    WHERE user.ID = "' + user_id + '"';
 
     var query = db.query(sql_data, function (err, result) {
         if (err) {
@@ -34,7 +33,7 @@ router.put("/updateMail", function (req, res, next) {
                 "results":
                     {
                         "status": 200,
-                        "message" : 'Mail has been change successfully'
+                        "message" : 'The user has been changed successfully'
                     }
             });
             res.end();

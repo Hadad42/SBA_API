@@ -4,7 +4,7 @@ var jwt_handler = require('../../controllers/check_jwt');
 
 router.use(jwt_handler);
 
-router.post("/updateName", function (req, res, next) {
+router.put("/updateName", function (req, res, next) {
     var user_id = req.decoded_data.Id;
     var oldName = req.body.oldName;
     var newName = req.body.newName;
@@ -19,13 +19,21 @@ router.post("/updateName", function (req, res, next) {
         }
         l = result.length;
         if (l === 0 || result.affectedRows !== 1) {
-            return res.status(403).send(JSON.parse('{ "message": "User does not exist"} '));
+            res.json({
+                "results":
+                    {
+                        "status": 403,
+                        "message" : 'User does not exist'
+                    }
+            });
+            res.end();
         }
         else {
             res.json({
                 "results":
                     {
-                        "status": true
+                        "status": 200,
+                        "message" : 'Name has been change successfully'
                     }
             });
             res.end();

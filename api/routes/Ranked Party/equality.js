@@ -4,7 +4,7 @@ var jwt_handler = require('../../controllers/check_jwt');
 
 router.use(jwt_handler);
 
-router.post("/rankedPartyEquality", function (req, res, next) {
+router.put("/rankedPartyEquality", function (req, res, next) {
     var id = req.decoded_data.Id;
 
     var sql_data = 'UPDATE rank \
@@ -17,13 +17,21 @@ router.post("/rankedPartyEquality", function (req, res, next) {
         }
         l = result.length;
         if (l === 0) {
-            return res.status(403).send(JSON.parse('{ "message": "User does not exist"} '));
+            res.json({
+                "results":
+                    {
+                        "status": 403,
+                        "message" : 'User does not exist'
+                    }
+            });
+            res.end();
         }
         else {
             res.json({
                 "results":
                     {
-                        "status": true
+                        "status": 200,
+                        "message" : 'Number of equality has been changed successfully'
                     }
             });
             res.end();

@@ -7,7 +7,7 @@ router.use(jwt_handler);
 router.get("/getInformation", function (req, res, next) {
     var player_id = req.decoded_data.Id;
 
-    var sql_data = "SELECT user.Name, user.Email, user.Is_activate, user.Is_staff, player.Gold, player.Dust, rank.Victory, rank.Equality, rank.Defeat\
+    var sql_data = "SELECT user.Name, user.Email, user.Is_activate, user.Is_staff, player.Gold, player.Part, rank.Victory, rank.Equality, rank.Defeat\
     FROM user, player, rank \
     WHERE user.ID = " + player_id + " AND player.ID = " + player_id + " AND rank.User_id = " + player_id + "";
 
@@ -17,13 +17,20 @@ router.get("/getInformation", function (req, res, next) {
         }
         l = result.length;
         if (l === 0) {
-            return res.status(403).send(JSON.parse('{ "message": "User does not exist"} '));
+            res.json({
+                "results":
+                    {
+                        "status": 403,
+                        "message" : 'User does not exist'
+                    }
+            });
+            res.end();
         }
         else {
             res.json({
                 "results":
                     {
-                        "status": true,
+                        "status": 200,
                         "data": result
                     }
             });

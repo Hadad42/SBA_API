@@ -4,12 +4,12 @@ var jwt_handler = require('../../controllers/check_jwt');
 
 router.use(jwt_handler);
 
-router.post("/addDust", function (req, res, next) {
+router.put("/addPart", function (req, res, next) {
     var player_id = req.decoded_data.Id;
-    var dust = req.body.dust;
+    var part = req.body.part;
 
     var sql_data = 'UPDATE player \
-    SET player.Dust = player.Dust + "' + dust + '" \
+    SET player.Dust = player.Part + "' + part + '" \
     WHERE player.ID = "' + player_id + '"';
 
     var query = db.query(sql_data, function (err, result) {
@@ -18,13 +18,21 @@ router.post("/addDust", function (req, res, next) {
         }
         l = result.length;
         if (l === 0) {
-            return res.status(403).send(JSON.parse('{ "message": "User does not exist"} '));
+            res.json({
+                "results":
+                    {
+                        "status": 403,
+                        "message" : 'User does not exist'
+                    }
+            });
+            res.end();
         }
         else {
             res.json({
                 "results":
                     {
-                        "status": true
+                        "status": 200,
+                        "message" : 'The amount of dust has been changed successfully'
                     }
             });
             res.end();

@@ -65,14 +65,18 @@ var reg_handler = require('./api/routes/registrationHandler');
 var con_handler = require('./api/routes/connectionHandler');
 var card_handler = require('./api/routes/Card/checkCardsHandler');
 var player_handler = require('./api/routes/Player/playerHandler');
-var player_dust = require('./api/routes/Player/addDust');
+var player_dust = require('./api/routes/Player/addPart');
 var player_gold = require('./api/routes/Player/addGold');
 var player_name = require('./api/routes/Player/updateName');
 var player_mail = require('./api/routes/Player/updateMail');
 var player_password = require('./api/routes/Player/updatePassword');
 var getRank = require('./api/routes/Player/getRank');
 
-var article_handler = require('./api/routes/articleHandler');
+var user_getAll = require('./api/routes/User/getAll');
+var user_delete = require('./api/routes/User/delete');
+var user_update = require('./api/routes/User/update');
+
+var article_handler = require('./api/routes/Article/getAll');
 
 var rankedPartyWin = require('./api/routes/Ranked Party/win');
 var rankedPartyEquality = require('./api/routes/Ranked Party/equality');
@@ -90,19 +94,24 @@ app.post('/signup', reg_handler);
 app.post('/signin', con_handler);
 //app.use('/signup', reg_handler);
 
+//User
+app.get('/user/getAll');
+app.delete('/user/delete');
+app.put('/user/update');
+
 //Player Handler
 app.get('/getInformation', player_handler);
-app.post('/addDust', player_dust);
-app.post('/addGold', player_gold);
-app.post('/updateMail', player_mail);
-app.post('/updateName', player_name);
-app.post('/updatePassword', player_password);
+app.put('/addPart', player_dust);
+app.put('/addGold', player_gold);
+app.put('/updateMail', player_mail);
+app.put('/updateName', player_name);
+app.put('/updatePassword', player_password);
 app.get('/getRank', getRank);
 
 //ranked Party
-app.post('/rankedPartyWin', rankedPartyWin);
-app.post('/rankedPartyEquality', rankedPartyEquality);
-app.post('/rankedPartyDefeat', rankedPartyDefeat);
+app.put('/rankedPartyWin', rankedPartyWin);
+app.put('/rankedPartyEquality', rankedPartyEquality);
+app.put('/rankedPartyDefeat', rankedPartyDefeat);
 
 //Card Handler
 app.get('/card', card_handler);

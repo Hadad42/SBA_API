@@ -80,10 +80,11 @@ var user_delete = require('./api/routes/User/delete');
 var user_update = require('./api/routes/User/update');
 var user_getById = require('./api/routes/User/getById');
 
-var article_get = require('./api/routes/Article/getAll');
+var article_getAll = require('./api/routes/Article/getAll');
 var article_create = require('./api/routes/Article/create');
 var article_update = require('./api/routes/Article/update');
 var article_delete = require('./api/routes/Article/delete');
+var article_getById = require('./api/routes/Article/getById');
 
 var rankedPartyWin = require('./api/routes/Ranked Party/win');
 var rankedPartyEquality = require('./api/routes/Ranked Party/equality');
@@ -103,12 +104,13 @@ app.post('/signin', con_handler);
 
 //User
 app.get('/user/getAll', user_getAll);
+app.get('/user/getById', user_getById);
 app.delete('/user/delete', user_delete);
 app.put('/user/update', user_update);
-app.get('/user/getById', user_getById);
 
 //Article
-app.get('/article/getAll', article_get);
+app.get('/article/getAll', article_getAll);
+app.get('/article/getById', article_getById);
 app.post('/article/create', article_create);
 app.put('/article/update', article_update);
 app.delete('/article/delete', article_delete);

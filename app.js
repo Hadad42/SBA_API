@@ -76,6 +76,7 @@ var getRank = require('./api/routes/Player/getRank');
 var user_getAll = require('./api/routes/User/getAll');
 var user_delete = require('./api/routes/User/delete');
 var user_update = require('./api/routes/User/update');
+var user_getById = require('./api/routes/User/getById');
 
 var article_get = require('./api/routes/Article/getAll');
 var article_create = require('./api/routes/Article/create');
@@ -102,6 +103,7 @@ app.post('/signin', con_handler);
 app.get('/user/getAll', user_getAll);
 app.delete('/user/delete', user_delete);
 app.put('/user/update', user_update);
+app.get('/user/getById', user_getById);
 
 //Article
 app.get('/article/getAll', article_get);

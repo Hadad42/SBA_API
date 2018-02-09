@@ -52,6 +52,7 @@ app.use(morgan('dev'));
 //-------------------------------------set header to allow cors---------------------------------------------------------
 
 app.use(function (req, res, next) {
+    app.use(cors());
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();

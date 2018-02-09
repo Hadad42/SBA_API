@@ -2,19 +2,20 @@ var express = require('express');
 var router = express.Router();
 
 router.put("/article/update", function (req, res, next) {
-    var article_id = rec.param;
+    var article_id = req.query.id;
     var title = req.body.title;
     var description = req.body.description;
     var image = req.body.image;
     var currentDate = new Date,
-        dformat = [d.getFullYear(),
-                d.getMonth()+1,
-                d.getDate()].join('/')+' '+
-            [d.getHours(),
-                d.getMinutes(),
-                d.getSeconds()].join(':');
+        dformat = [currentDate.getFullYear(),
+                currentDate.getMonth()+1,
+                currentDate.getDate()].join('/')+' '+
+            [currentDate.getHours(),
+                currentDate.getMinutes(),
+                currentDate.getSeconds()].join(':');
+    console.log("article ID = "+ article_id);
     var sql_data = 'UPDATE article\
-        SET article.Title = "' + title + '", article.Description = "'+description+'", article.Image = "'+ image +'", article.ModificationDate = "'+currentDate+ '" \
+        SET article.Title = "' + title + '", article.Description = "'+description+'", article.Image = "'+ image +'", article.ModificationDate = "'+dformat+ '" \
         WHERE article.ID = "' + article_id + '"';
 
     var query = db.query(sql_data, function (err, result) {
@@ -37,7 +38,7 @@ router.put("/article/update", function (req, res, next) {
                 "results":
                     {
                         "status": 200,
-                        "data": result
+                        "message" : 'The article has been changed successfully'
                     }
             });
             res.end();

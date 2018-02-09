@@ -65,7 +65,7 @@ var reg_handler = require('./api/routes/registrationHandler');
 var con_handler = require('./api/routes/connectionHandler');
 var card_handler = require('./api/routes/Card/checkCardsHandler');
 var player_handler = require('./api/routes/Player/playerHandler');
-var player_dust = require('./api/routes/Player/addPart');
+var player_part = require('./api/routes/Player/addPart');
 var player_gold = require('./api/routes/Player/addGold');
 var player_name = require('./api/routes/Player/updateName');
 var player_mail = require('./api/routes/Player/updateMail');
@@ -76,7 +76,10 @@ var user_getAll = require('./api/routes/User/getAll');
 var user_delete = require('./api/routes/User/delete');
 var user_update = require('./api/routes/User/update');
 
-var article_handler = require('./api/routes/Article/getAll');
+var article_get = require('./api/routes/Article/getAll');
+var article_create = require('./api/routes/Article/create');
+var article_update = require('./api/routes/Article/update');
+var article_delete = require('./api/routes/Article/delete');
 
 var rankedPartyWin = require('./api/routes/Ranked Party/win');
 var rankedPartyEquality = require('./api/routes/Ranked Party/equality');
@@ -95,20 +98,26 @@ app.post('/signin', con_handler);
 //app.use('/signup', reg_handler);
 
 //User
-app.get('/user/getAll');
-app.delete('/user/delete');
-app.put('/user/update');
+app.get('/user/getAll', user_getAll);
+app.delete('/user/delete', user_delete);
+app.put('/user/update', user_update);
+
+//Article
+app.get('/article/getAll', article_get);
+app.post('/article/create', article_create);
+app.put('/article/update', article_update);
+app.delete('/article/delete', article_delete);
 
 //Player Handler
 app.get('/getInformation', player_handler);
-app.put('/addPart', player_dust);
+app.put('/addPart', player_part);
 app.put('/addGold', player_gold);
 app.put('/updateMail', player_mail);
 app.put('/updateName', player_name);
 app.put('/updatePassword', player_password);
 app.get('/getRank', getRank);
 
-//ranked Party
+//Ranked Party
 app.put('/rankedPartyWin', rankedPartyWin);
 app.put('/rankedPartyEquality', rankedPartyEquality);
 app.put('/rankedPartyDefeat', rankedPartyDefeat);

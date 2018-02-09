@@ -1,16 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var jwt_handler = require('../../controllers/check_jwt');
 
-router.use(jwt_handler);
-
-router.put("/addPart", function (req, res, next) {
-    var player_id = req.decoded_data.Id;
-    var part = req.body.part;
-
-    var sql_data = 'UPDATE player \
-    SET player.Part = player.Part + "' + part + '" \
-    WHERE player.ID = "' + player_id + '"';
+router.delete("/article/delete", function (req, res, next) {
+    var article_id = req.body.id;
+    var sql_data = 'DELETE FROM article \
+    WHERE article.id = "' + article_id + '"';
 
     var query = db.query(sql_data, function (err, result) {
         if (err) {
@@ -22,7 +16,7 @@ router.put("/addPart", function (req, res, next) {
                 "results":
                     {
                         "status": 403,
-                        "message" : 'User does not exist'
+                        "message" : 'An problem has occurred, try again later'
                     }
             });
             res.end();
@@ -32,7 +26,7 @@ router.put("/addPart", function (req, res, next) {
                 "results":
                     {
                         "status": 200,
-                        "message" : 'The amount of part has been changed successfully'
+                        "message": 'The article has been delete successfully'
                     }
             });
             res.end();
@@ -41,3 +35,4 @@ router.put("/addPart", function (req, res, next) {
 });
 
 module.exports = router;
+

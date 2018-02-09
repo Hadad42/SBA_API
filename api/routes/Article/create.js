@@ -6,14 +6,14 @@ router.post("/article/create", function (req, res, next) {
     var description = req.body.description;
     var image = req.body.image;
     var currentDate = new Date,
-        dformat = [d.getFullYear(),
-                d.getMonth()+1,
-                d.getDate()].join('/')+' '+
-            [d.getHours(),
-                d.getMinutes(),
-                d.getSeconds()].join(':');
+        dformat = [currentDate.getFullYear(),
+                currentDate.getMonth()+1,
+                currentDate.getDate()].join('/')+' '+
+            [currentDate.getHours(),
+                currentDate.getMinutes(),
+                currentDate.getSeconds()].join(':');
     var sql_data = "INSERT INTO article(`ID`,`Title`,`Description`,`Image`,`CreateDate`) \
-        VALUES ('','" + title + "','" + description + "','" + image + "','"+currentDate+"')";
+        VALUES ('','" + title + "','" + description + "','" + image + "','"+dformat+"')";
 
     var query = db.query(sql_data, function (err, result) {
         if (err) {
@@ -44,4 +44,3 @@ router.post("/article/create", function (req, res, next) {
 });
 
 module.exports = router;
-//rec.param ou rec.query

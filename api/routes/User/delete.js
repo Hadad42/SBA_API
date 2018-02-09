@@ -4,7 +4,7 @@ var router = express.Router();
 router.delete("/user/delete", function (req, res, next) {
     var user_id = req.body.id;
     var sql_data = 'DELETE FROM user \
-    WHERE user.id = "' + player_id + '"';
+    WHERE user.id = "' + user_id + '"';
 
     var query = db.query(sql_data, function (err, result) {
         if (err) {

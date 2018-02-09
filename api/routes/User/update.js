@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 router.put("/user/update", function (req, res, next) {
-    var user_id = req.body.Id;
+    var user_id = req.query.ID;
     var newName = req.body.name;
     var newPassword = req.body.password;
     var newMail = req.body.mail;
-    var is_staff = req.body.Is_staff;
+    var is_staff = req.body.is_staff;
 
     var sql_data = 'UPDATE user \
     SET user.Email = "' + newMail + '", user.Name = "'+newName+'", user.Password = "'+ newPassword +'", user.Is_staff = "'+is_staff+ '"  \

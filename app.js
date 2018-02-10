@@ -60,6 +60,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+//access to article folder
+app.use('/articles',express.static('articles'));
 
 //-------------------------------------routes-----------------------------------------------------------------------
 //var user        = require('./api/routes/user');

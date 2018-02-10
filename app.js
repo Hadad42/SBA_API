@@ -68,7 +68,6 @@ app.use('/articles',express.static('articles'));
 var index = require('./api/routes/index');
 var reg_handler = require('./api/routes/registrationHandler');
 var con_handler = require('./api/routes/connectionHandler');
-var card_handler = require('./api/routes/Card/checkCardsHandler');
 var player_handler = require('./api/routes/Player/playerHandler');
 var player_part = require('./api/routes/Player/addPart');
 var player_gold = require('./api/routes/Player/addGold');
@@ -97,6 +96,10 @@ var deck_create = require('./api/routes/Deck/createDeckHandler');
 var deck_modify = require('./api/routes/Deck/modifyDeckHandler');
 //var deck_destroy = require('./api/routes/Deck/updateName');
 var deck_check = require('./api/routes/Deck/checkDeckHandler');
+
+//Card
+var card_handler = require('./api/routes/Card/checkCardsHandler');
+var booster_handler = require('./api/routes/Card/buyBoosterHandler');
 
 //Registration Handler
 app.use('/', index);
@@ -133,6 +136,7 @@ app.put('/rankedPartyDefeat', rankedPartyDefeat);
 
 //Card Handler
 app.get('/card', card_handler);
+app.post('/buyBooster', booster_handler);
 
 
 //Deck Handler

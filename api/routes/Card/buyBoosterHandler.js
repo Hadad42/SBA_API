@@ -12,65 +12,105 @@ function number_generator(num, max) {
     for (var i = 0; i < num; i++){
         list_card.push(Math.floor(Math.random() * (max - min +1)) + min)
     }
+    console.log("new_list is", list_card);
     return list_card;
 }
 
-function create_insert_query(req, list_card) {
-    var player_id = req.decoded_data.Id;
-    var list_inserted = [];
-    var insert_query = "INSERT INTO `card_collection`(`Player_id`, `Card_id`,`Number`) VALUES ";
-    insert_query += "(" + player_id + "', '" + ") ";
+function query_commit(req, res, next) {
+    db.commit(function(err) {
+        if (err) {
+            db.rollback(function () {
+                throw err;
+            });
+        }
+    });
+    res.status(201).send({"results":{
+        "status": 201,
+        "success": "Booster "
+    }}) ;
+    res.end();
 
-    for (var i=0; i<list_card.length; i++){
-
-    }
-
-    insert_query += ");";
-    return insert_query;
 }
 
-function create_update_query(req) {
+function query_insert_card(req, res, next, to_insert) {
     var player_id = req.decoded_data.Id;
-    var update_query =
-        'UPDATE `card_collection`' +
-        ' SET ';
-    for (var i=0; i<) {
+    var insert_query = 'INSERT INTO `card_collection`(`Player_id`, `Card_id`,`Number`) VALUES ';
 
+    console.log("to_insert", to_insert);
+    for (var key in to_insert){
+        if (to_insert.hasOwnProperty(key)) {
+            insert_query += '(' + player_id + ', ' + key + ', ' + to_insert[key] + ') ';
+        }
     }
-}
 
-function query_update_card(req, res, next, list_player_card) {
-    var new_card_list = number_generator(6, 2);
-    console.log(player_card_list);
-    var add_cards_update_query = create_update_query(req, player_card_list);
-    db.query(add_cards_update_query, function(err, result) {
+    insert_query += ";";
+    console.log("query is ", insert_query);
+
+    db.query(insert_query, function(err, result) {
         if (err) {
             db.rollback(function() {
                 throw err;
             });
         }
         console.log(result);
-        db.commit(function(err) {
-            if (err) {
-                db.rollback(function () {
-                    throw err;
-                });
+        query_commit(req, res, next)
+    });
+}
+
+function query_update_card(req, res, next, player_card_list) {
+    var new_card_list = number_generator(6, 2);
+    var player_id = req.decoded_data.Id;
+    var to_insert = {};
+    var to_update = {};
+
+    // Split list of card to be added into to_update and to_insert
+    for (var i=0; i<new_card_list.length; i++) {
+        var is_in_PL = false;
+        console.log(player_card_list);
+        for (var b=0; b < player_card_list.length; b++){
+            if (new_card_list[i] === player_card_list[b].card){
+                is_in_PL = true;
+                to_update[new_card_list[i]] = to_update[new_card_list[i]] + 1 || 1;
+                break;
             }
-        });
-        res.json({"results":{
-            "status": 201,
-            "success": "Deck Successfully Created"
-        }}) ;
-        res.end();
+        }
+        if (is_in_PL === false){
+            to_insert[new_card_list[i]] = to_insert[new_card_list[i]] + 1 || 1;
+        }
+
+    }
+    var update_query =
+        'UPDATE `card_collection` ' +
+        'SET card_collection.Number = CASE card_collection.Card_id ';
+    for (var key in to_update){
+        update_query += ' WHEN ' + key + ' THEN ' +  to_update[key];
+    }
+    update_query += ' END WHERE Player_id=' + player_id + ';';
+    console.log("to_insert", to_insert);
+    console.log("to_update", to_update);
+    db.query(update_query, function(err, result) {
+        if (err) {
+            db.rollback(function() {
+                throw err;
+            });
+        }
+        console.log(result);
+        if (to_insert === {})
+            query_commit(req, res, next);
+        else {
+            query_insert_card(req, res, next, to_insert)
+        }
+
     });
 
 }
 
 function select_player_card(req, res, next) {
+    var player_id = req.decoded_data.Id;
     var sql =
-        'SELECT Player_id, Card_id, Number\
-    FROM card_collection\
-    WHERE card_collection.Player_id="'+player_id+'"';
+        'SELECT Player_id, Card_id AS "card", Number \
+    FROM card_collection \
+    WHERE card_collection.Player_id='+player_id+'';
     var query = db.query(sql, function (err, results) {
         if (err){
             throw err;
@@ -81,7 +121,7 @@ function select_player_card(req, res, next) {
                 if (data === "[]") {
                     // ajouter gestion d'erreur quand j'aurais le temps
                     res.json(ret);
-                    console.log();
+                    console.log("select query", results);
                     res.end();
                     return;
                 }
@@ -146,7 +186,7 @@ router.post('/buyBooster', function (req, res, next) {
                                     });
                                 }
                                 console.log("2nd query result is ", result);
-                                query_update_card(req, res, next)
+                                select_player_card(req, res, next);
                             });
                     });
             });

@@ -26,7 +26,7 @@ function query_commit(req, res, next) {
     });
     res.status(201).send({"results":{
         "status": 201,
-        "success": "Booster "
+        "success": "Booster Bought"
     }}) ;
     res.end();
 
@@ -42,7 +42,6 @@ function query_insert_card(req, res, next, to_insert) {
             insert_query += '(' + player_id + ', ' + key + ', ' + to_insert[key] + ') ';
         }
     }
-
     insert_query += ";";
     console.log("query is ", insert_query);
 
@@ -66,11 +65,10 @@ function query_update_card(req, res, next, player_card_list) {
     // Split list of card to be added into to_update and to_insert
     for (var i=0; i<new_card_list.length; i++) {
         var is_in_PL = false;
-        console.log(player_card_list);
         for (var b=0; b < player_card_list.length; b++){
             if (new_card_list[i] === player_card_list[b].card){
                 is_in_PL = true;
-                to_update[new_card_list[i]] = to_update[new_card_list[i]] + 1 || 1;
+                to_update[new_card_list[i]] = to_update[new_card_list[i]] + 1 || player_card_list[b].Number + 1;
                 break;
             }
         }
@@ -79,30 +77,34 @@ function query_update_card(req, res, next, player_card_list) {
         }
 
     }
-    var update_query =
-        'UPDATE `card_collection` ' +
-        'SET card_collection.Number = CASE card_collection.Card_id ';
-    for (var key in to_update){
-        update_query += ' WHEN ' + key + ' THEN ' +  to_update[key];
+    if (JSON.stringify(to_update) !== '{}') {
+
+        var update_query =
+            'UPDATE `card_collection` ' +
+            'SET card_collection.Number = CASE card_collection.Card_id ';
+        for (var key in to_update) {
+            update_query += ' WHEN ' + key + ' THEN ' + to_update[key];
+        }
+        update_query += ' END WHERE Player_id=' + player_id + ';';
+        db.query(update_query, function (err, result) {
+            if (err) {
+                db.rollback(function () {
+                    throw err;
+                });
+            }
+            if (JSON.stringify(to_insert) === '{}') {
+                console.log("entre dans query commit");
+                query_commit(req, res, next);
+            }
+            else {
+                query_insert_card(req, res, next, to_insert)
+            }
+
+        });
     }
-    update_query += ' END WHERE Player_id=' + player_id + ';';
-    console.log("to_insert", to_insert);
-    console.log("to_update", to_update);
-    db.query(update_query, function(err, result) {
-        if (err) {
-            db.rollback(function() {
-                throw err;
-            });
-        }
-        console.log(result);
-        if (to_insert === {})
-            query_commit(req, res, next);
-        else {
-            query_insert_card(req, res, next, to_insert)
-        }
-
-    });
-
+    else {
+        query_insert_card(req, res, next, to_insert)
+    }
 }
 
 function select_player_card(req, res, next) {
@@ -162,17 +164,6 @@ router.post('/buyBooster', function (req, res, next) {
                     res.end();
                     return;
                 }
-                db.query('SELECT Player_id AS "Player", Card_id AS "Card", Number ' +
-                    'FROM card_collection ' +
-                    'WHERE Player_id=?', player_id,
-                    function(err, result) {
-                        if (err) {
-                            db.rollback(function() {
-                                throw err;
-                            });
-                        }
-                        console.log("collection is ", result);
-
                         /* Get list of available cards of Hero faction */
                         db.query(
                             'UPDATE player ' +
@@ -188,7 +179,6 @@ router.post('/buyBooster', function (req, res, next) {
                                 console.log("2nd query result is ", result);
                                 select_player_card(req, res, next);
                             });
-                    });
             });
     });
     console.log('Transaction Complete.');

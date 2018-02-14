@@ -4,7 +4,7 @@ var router = express.Router();
 router.delete("/article/delete", function (req, res, next) {
     var article_id = req.body.id;
 
-    if (!req.body.id || isNaN(req.body.id) === true)
+    if (!article_id || isNaN(article_id) === true)
     {
         res.status(422).send({"results": {"status": 422, "error": "Parameter id is incorrect or missing"}});
     }

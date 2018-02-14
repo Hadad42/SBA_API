@@ -68,29 +68,6 @@ app.use('/articles',express.static('articles'));
 var index = require('./api/routes/index');
 var reg_handler = require('./api/routes/registrationHandler');
 var con_handler = require('./api/routes/connectionHandler');
-var player_handler = require('./api/routes/Player/playerHandler');
-var player_part = require('./api/routes/Player/addPart');
-var player_gold = require('./api/routes/Player/addGold');
-var player_name = require('./api/routes/Player/updateName');
-var player_mail = require('./api/routes/Player/updateMail');
-var player_password = require('./api/routes/Player/updatePassword');
-var getRank = require('./api/routes/Player/getRank');
-
-var user_getAll = require('./api/routes/User/getAll');
-var user_delete = require('./api/routes/User/delete');
-var user_update = require('./api/routes/User/update');
-var user_getById = require('./api/routes/User/getById');
-
-var article_getAll = require('./api/routes/Article/getAll');
-var article_create = require('./api/routes/Article/create');
-var article_update = require('./api/routes/Article/update');
-var article_delete = require('./api/routes/Article/delete');
-var article_getById = require('./api/routes/Article/getById');
-
-var rankedPartyWin = require('./api/routes/RankedParty/win');
-var rankedPartyEquality = require('./api/routes/RankedParty/equality');
-var rankedPartyDefeat = require('./api/routes/RankedParty/defeat');
-
 
 
 //Registration Handler
@@ -103,32 +80,11 @@ app.use('/forum', require('./api/routes/forum/routes'));
 app.use('/cards', require('./api/routes/card/routes'));
 app.use('/booster', require('./api/routes/booster/routes'));
 
-//User
-app.get('/user/getAll', user_getAll);
-app.get('/user/getById', user_getById);
-app.delete('/user/delete', user_delete);
-app.put('/user/update', user_update);
 
-//Article
-app.get('/article/getAll', article_getAll);
-app.get('/article/getById', article_getById);
-app.post('/article/create', article_create);
-app.put('/article/update', article_update);
-app.delete('/article/delete', article_delete);
-
-//Player Handler
-app.get('/player/getInformation', player_handler);
-app.get('/player/getRank', getRank);
-app.put('/player/addPart', player_part);
-app.put('/player/addGold', player_gold);
-app.put('/player/updateMail', player_mail);
-app.put('/player/updateName', player_name);
-app.put('/player/updatePassword', player_password);
-
-//Ranked Party
-app.put('/rankedParty/win', rankedPartyWin);
-app.put('/rankedParty/equality', rankedPartyEquality);
-app.put('/rankedParty/defeat', rankedPartyDefeat);
+app.use('/article', require('./api/routes/Article/routes'));
+app.use('/player', require('./api/routes/Player/routes'));
+app.use('/rankedParty', require('./api/routes/RankedParty/routes'));
+app.use('/user', require('./api/routes/User/routes'));
 
 
 /*

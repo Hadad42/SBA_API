@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-router.get("/article/getById", function (req, res, next) {
+router.get("/article/:article_id", function (req, res, next) {
 
-    var article_id = req.query.id;
+    var article_id = req.params.article_id;
 
-    if (!req.query.id || isNaN(req.query.id) === true) {
+    if (!article_id || isNaN(article_id) === true) {
         res.status(422).send({"results": {"status": 422, "error": "Query id is incorrect or missing"}});
     }
     else {

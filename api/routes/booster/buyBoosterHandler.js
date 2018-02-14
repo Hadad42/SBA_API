@@ -133,7 +133,7 @@ function select_player_card(req, res, next) {
     })
 }
 
-router.post('/buyBooster', function (req, res, next) {
+router.post('/buy', function (req, res, next) {
     /* Begin transaction */
     console.log("Transaction begin");
     var player_id = req.decoded_data.Id;

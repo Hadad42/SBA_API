@@ -16,7 +16,7 @@ router.get("/article/getAll", function (req, res, next) {
                 "results":
                     {
                         "status": 403,
-                        "message" : 'An error as occurred, try again later'
+                        "message": 'An error as occurred, try again later'
                     }
             });
             res.end();

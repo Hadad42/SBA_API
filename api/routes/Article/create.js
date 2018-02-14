@@ -44,35 +44,44 @@ router.post("/article/create", upload.single('articleImage'), function (req, res
             [currentDate.getHours(),
                 currentDate.getMinutes(),
                 currentDate.getSeconds()].join(':');
-    var sql_data = "INSERT INTO article(`ID`,`Title`,`Description`,`Image`,`Slug`,`CreateDate`) \
-        VALUES ('','" + title + "','" + description + "','" + image + "','" + 'articles/'+req.file.originalname + "','" + dformat + "')";
+    if (!req.body.title) {
+        res.status(422).send({"results": {"status": 422, "error": "Parameter title is incorrect or missing"}});
+    }
+    else if (!req.body.description)
+    {
+        res.status(422).send({"results":{ "status": 422, "error": "Parameter description is incorrect or missing"}});
+    }
+    else {
+        var sql_data = "INSERT INTO article(`ID`,`Title`,`Description`,`Image`,`Slug`,`CreateDate`) \
+        VALUES ('','" + title + "','" + description + "','" + image + "','" + 'articles/' + req.file.filename + "','" + dformat + "')";
 
-    var query = db.query(sql_data, function (err, result) {
-        if (err) {
-            throw err;
-        }
-        l = result.length;
-        if (l === 0) {
-            res.json({
-                "results":
-                    {
-                        "status": 403,
-                        "message": 'An error as occurred, try again later'
-                    }
-            });
-            res.end();
-        }
-        else {
-            res.json({
-                "results":
-                    {
-                        "status": 200,
-                        "message": 'The article have been successfully created'
-                    }
-            });
-            res.end();
-        }
-    });
+        var query = db.query(sql_data, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            l = result.length;
+            if (l === 0) {
+                res.json({
+                    "results":
+                        {
+                            "status": 403,
+                            "message": 'An error as occurred, try again later'
+                        }
+                });
+                res.end();
+            }
+            else {
+                res.json({
+                    "results":
+                        {
+                            "status": 200,
+                            "message": 'The article have been successfully created'
+                        }
+                });
+                res.end();
+            }
+        });
+    }
 });
 
 module.exports = router;

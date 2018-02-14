@@ -87,9 +87,9 @@ var article_update = require('./api/routes/Article/update');
 var article_delete = require('./api/routes/Article/delete');
 var article_getById = require('./api/routes/Article/getById');
 
-var rankedPartyWin = require('./api/routes/Ranked Party/win');
-var rankedPartyEquality = require('./api/routes/Ranked Party/equality');
-var rankedPartyDefeat = require('./api/routes/Ranked Party/defeat');
+var rankedPartyWin = require('./api/routes/RankedParty/win');
+var rankedPartyEquality = require('./api/routes/RankedParty/equality');
+var rankedPartyDefeat = require('./api/routes/RankedParty/defeat');
 
 var deck_create = require('./api/routes/Deck/createDeckHandler');
 //var deck_name = require('./api/routes/Deck/updateName');
@@ -121,18 +121,18 @@ app.put('/article/update', article_update);
 app.delete('/article/delete', article_delete);
 
 //Player Handler
-app.get('/getInformation', player_handler);
-app.put('/addPart', player_part);
-app.put('/addGold', player_gold);
-app.put('/updateMail', player_mail);
-app.put('/updateName', player_name);
-app.put('/updatePassword', player_password);
-app.get('/getRank', getRank);
+app.get('/player/getInformation', player_handler);
+app.get('/player/getRank', getRank);
+app.put('/player/addPart', player_part);
+app.put('/player/addGold', player_gold);
+app.put('/player/updateMail', player_mail);
+app.put('/player/updateName', player_name);
+app.put('/player/updatePassword', player_password);
 
 //Ranked Party
-app.put('/rankedPartyWin', rankedPartyWin);
-app.put('/rankedPartyEquality', rankedPartyEquality);
-app.put('/rankedPartyDefeat', rankedPartyDefeat);
+app.put('/rankedParty/win', rankedPartyWin);
+app.put('/rankedParty/equality', rankedPartyEquality);
+app.put('/rankedParty/defeat', rankedPartyDefeat);
 
 //Card Handler
 app.get('/card', card_handler);

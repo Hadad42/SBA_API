@@ -120,7 +120,7 @@ function select_player_card(req, res, next) {
                 var data = JSON.stringify(results);
                 if (data === "[]") {
                     // ajouter gestion d'erreur quand j'aurais le temps
-                    res.json(ret);
+                    //res.json(ret);
                     console.log("select query", results);
                     res.end();
                     return;
@@ -173,6 +173,7 @@ router.post('/buyBooster', function (req, res, next) {
                         }
                         console.log("collection is ", result);
 
+                        console.log("TESTTTTT ");
                         /* Get list of available cards of Hero faction */
                         db.query(
                             'UPDATE player ' +

@@ -91,21 +91,17 @@ var rankedPartyWin = require('./api/routes/RankedParty/win');
 var rankedPartyEquality = require('./api/routes/RankedParty/equality');
 var rankedPartyDefeat = require('./api/routes/RankedParty/defeat');
 
-var deck_create = require('./api/routes/Deck/createDeckHandler');
-//var deck_name = require('./api/routes/Deck/updateName');
-var deck_modify = require('./api/routes/Deck/modifyDeckHandler');
-//var deck_destroy = require('./api/routes/Deck/updateName');
-var deck_check = require('./api/routes/Deck/checkDeckHandler');
 
-//Card
-var card_handler = require('./api/routes/Card/checkCardsHandler');
-var booster_handler = require('./api/routes/Card/buyBoosterHandler');
 
 //Registration Handler
 app.use('/', index);
 app.post('/signup', reg_handler);
 app.post('/signin', con_handler);
 //app.use('/signup', reg_handler);
+
+app.use('/forum', require('./api/routes/forum/routes'));
+app.use('/cards', require('./api/routes/Card/routes'));
+app.use('/booster', require('./api/routes/booster/routes'));
 
 //User
 app.get('/user/getAll', user_getAll);
@@ -134,20 +130,12 @@ app.put('/rankedParty/win', rankedPartyWin);
 app.put('/rankedParty/equality', rankedPartyEquality);
 app.put('/rankedParty/defeat', rankedPartyDefeat);
 
-//Card Handler
-app.get('/card', card_handler);
-app.post('/buyBooster', booster_handler);
 
-
-//Deck Handler
-app.post("/createDeck", deck_create);
-app.put("/updateDeck", deck_modify);
 /*
 error handler
 if error is encountered, display error and stacktrace
  */
-var error = require('./api/errors');
-app.use(error);
+app.use(require('./api/errors'));
 
 // app.use('/users', users);
 

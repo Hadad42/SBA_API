@@ -100,7 +100,7 @@ app.post('/signin', con_handler);
 //app.use('/signup', reg_handler);
 
 app.use('/forum', require('./api/routes/forum/routes'));
-app.use('/cards', require('./api/routes/Card/routes'));
+app.use('/cards', require('./api/routes/card/routes'));
 app.use('/booster', require('./api/routes/booster/routes'));
 
 //User

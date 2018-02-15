@@ -4,14 +4,13 @@ var jwt_handler = require('../../controllers/check_jwt');
 
 router.use(jwt_handler);
 
-router.get('/deck', function (req, res, next) {
+router.get('/', function (req, res, next) {
     var player_id = req.decoded_data.Id;
     console.log("id est", player_id);
     var ret = {
         "status": "200",
         "decks": []
     };
-    res.json(ret);
     var sql =
         'SELECT ID, Player_id, Hero_id, Name\
             FROM deck\
@@ -24,11 +23,11 @@ router.get('/deck', function (req, res, next) {
             if (results !== ""){
                 console.log(results);
                 ret.decks = results;
-
+                res.json(ret);
+                res.end();
             }
         }
     });
-    res.end()
 });
 
 module.exports = router;

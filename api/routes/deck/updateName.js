@@ -12,7 +12,7 @@ function create_update_query(req) {
         ' WHERE deck.Player_id=' + player_id + ' AND deck.Hero_id=' + req.body.hero_id)
 }
 
-router.put('/updateDeck', function (req, res, next) {
+router.put('/update', function (req, res, next) {
     /* Begin transaction */
     console.log("Transaction begin");
     db.beginTransaction(function(err) {

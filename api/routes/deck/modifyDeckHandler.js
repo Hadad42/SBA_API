@@ -19,12 +19,17 @@ function create_update_query(req) {
     return update_query;
 }
 
-router.put('/updateDeck', function (req, res, next) {
+router.put('/:id/update', function (req, res, next) {
     /* Begin transaction */
     console.log("Transaction begin");
     db.beginTransaction(function(err) {
         if (err) { throw err; }
         /* Get Hero Faction */
+        if (!req.params.id || isNaN(req.params.id) === true){
+            res.status(422).send({"results":{ "status": 422, "error": "Parameter id_deck is incorrect or missing"}});
+            res.end();
+            return;
+        }
         db.query('SELECT hero.Faction_id AS "hero_faction_id" ' +
             'FROM hero ' +
             'WHERE hero.ID=?', req.body.hero_id,

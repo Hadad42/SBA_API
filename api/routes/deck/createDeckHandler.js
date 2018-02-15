@@ -18,15 +18,14 @@ var check_args = function (req, res, next) {
         || !body.deck
     ) {
         console.log("Parameters missing");
-        return res.status(403).send(JSON.parse('{ "message": "One or more parameter is missing"} '));
+        return res.status(403).send(JSON.parse('{"results": { "status": 403, "message": "One or more parameter is missing"}} '));
     }
-    else if (typeof player_id === "number"){
-        console.log("player id is a number");
-        next();
+    if (isNaN(player_id)){
+        res.status(403).send(JSON.parse('{"results": { "status": 403, "message": "hero_id parameter is not a number"}} '));
+        res.end();
     }
-    else {
-        next();
-    }
+    console.log("player id is a number");
+    next();
 };
 
 router.use(check_args);
@@ -34,7 +33,7 @@ router.use(check_args);
 function create_insert_query(req) {
     var player_id = req.decoded_data.Id;
     console.log("player_id est", player_id);
-    var insert_query = "INSERT INTO `card`(`ID`, `Player_id`, `Hero_id`,`Name`, ";
+    var insert_query = "INSERT INTO `deck`(`ID`, `Player_id`, `Hero_id`,`Name`, ";
     for(var i = 1; i <= 20; i++){
         insert_query += "`Card_" + String(i) + "_id`";
         if (i !== 20)
@@ -50,7 +49,7 @@ function create_insert_query(req) {
     return insert_query;
 }
 
-router.post('/createDeck', function (req, res, next) {
+router.post('/create', function (req, res, next) {
     /* Begin transaction */
     console.log("Transaction begin");
     db.beginTransaction(function(err) {
@@ -93,14 +92,13 @@ router.post('/createDeck', function (req, res, next) {
                             return;
                         }
                         var insert_query = create_insert_query(req);
+                        console.log('i is ', insert_query);
                         db.query(insert_query, function(err, result) {
                             if (err) {
                                 db.rollback(function() {
                                     throw err;
                                 });
                             }
-                            console.log(result);
-                            var log = result.hero_faction_id;
                             db.commit(function(err) {
                                 if (err) {
                                     db.rollback(function () {

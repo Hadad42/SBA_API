@@ -4,7 +4,7 @@ var jwt_handler = require('../../controllers/check_jwt');
 
 router.use(jwt_handler);
 
-router.get("/player/getInformation", function (req, res, next) {
+router.get("/getInformation", function (req, res, next) {
     var player_id = req.decoded_data.Id;
 
     var sql_data = "SELECT user.Name, user.Email, user.Is_activate, user.Is_staff, player.Gold, player.Part, rank.Victory, rank.Equality, rank.Defeat\

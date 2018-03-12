@@ -4,7 +4,7 @@ var jwt_handler = require('../../controllers/check_jwt');
 
 router.use(jwt_handler);
 
-router.put("/player/updatePassword", function (req, res, next) {
+router.put("/updatePassword", function (req, res, next) {
     var user_id = req.decoded_data.Id;
     var oldPassword = req.body.oldPassword;
     var newPassword = req.body.newPassword;

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.delete("/user/delete", function (req, res, next) {
+router.delete("/delete", function (req, res, next) {
     var user_id = req.body.id;
 
     if (!req.body.id || isNaN(req.body.id) === true) {

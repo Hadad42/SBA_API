@@ -4,7 +4,7 @@ var jwt_handler = require('../../controllers/check_jwt');
 
 router.use(jwt_handler);
 
-router.put("/player/addGold", function (req, res, next) {
+router.put("/addGold", function (req, res, next) {
     var player_id = req.decoded_data.Id;
     var gold = req.body.gold;
 

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get("/user/getById", function (req, res, next) {
+router.get("/getById", function (req, res, next) {
 
     var user_id = req.query.id;
     var sql_data = 'SELECT *\

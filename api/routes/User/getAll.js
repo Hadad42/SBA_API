@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get("/user/getAll", function (req, res, next) {
+router.get("/getAll", function (req, res, next) {
 
     var sql_data = "SELECT *\
     FROM user";

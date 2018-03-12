@@ -32,7 +32,7 @@ var upload = multer({
     fileFilter: fileFilter
 });
 
-router.post("/article/create", upload.single('articleImage'), function (req, res, next) {
+router.post("/create", upload.single('articleImage'), function (req, res, next) {
     console.log("req.file = ", req.file);
     var title = req.body.title;
     var description = req.body.description;

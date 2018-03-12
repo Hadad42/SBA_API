@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.delete("/article/delete", function (req, res, next) {
+router.delete("/delete", function (req, res, next) {
     var article_id = req.body.id;
 
     if (!article_id || isNaN(article_id) === true)

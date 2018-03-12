@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get("/article/:article_id", function (req, res, next) {
+router.get("/:article_id", function (req, res, next) {
 
     var article_id = req.params.article_id;
 

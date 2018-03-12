@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.put("/user/update", function (req, res, next) {
+router.put("/update", function (req, res, next) {
     var user_id = req.body.id;
     var newName = req.body.name;
     var newPassword = req.body.password;

@@ -37,10 +37,15 @@ function query_insert_card(req, res, next, to_insert) {
     var insert_query = 'INSERT INTO `card_collection`(`Player_id`, `Card_id`,`Number`) VALUES ';
 
     console.log("to_insert", to_insert);
+    var i = 0;
     for (var key in to_insert){
         if (to_insert.hasOwnProperty(key)) {
+            if (i > 0){
+                insert_query += ', '
+            }
             insert_query += '(' + player_id + ', ' + key + ', ' + to_insert[key] + ') ';
         }
+        i += 1;
     }
     insert_query += ";";
     console.log("query is ", insert_query);
@@ -119,14 +124,6 @@ function select_player_card(req, res, next) {
         }
         else {
             if (results !== ""){
-                var data = JSON.stringify(results);
-                if (data === "[]") {
-                    // ajouter gestion d'erreur quand j'aurais le temps
-                    res.json(ret);
-                    console.log("select query", results);
-                    res.end();
-                    return;
-                }
                 query_update_card(req, res, next, results);
             }
         }

@@ -4,7 +4,7 @@ var jwt_handler = require('../../controllers/check_jwt');
 
 router.use(jwt_handler);
 
-router.put("/player/updateName", function (req, res, next) {
+router.put("/updateName", function (req, res, next) {
     var user_id = req.decoded_data.Id;
     var oldName = req.body.oldName;
     var newName = req.body.newName;

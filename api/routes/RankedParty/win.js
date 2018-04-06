@@ -1,10 +1,15 @@
 var express = require('express');
 var router = express.Router();
+var jwt_handler = require('../../controllers/check_jwt');
 
-router.get("/getAll", function (req, res, next) {
+router.use(jwt_handler);
 
-    var sql_data = "SELECT * \
-    FROM article";
+router.put("/win", function (req, res, next) {
+    var id = req.decoded_data.Id;
+
+    var sql_data = 'UPDATE rank \
+    SET rank.Victory = rank.Victory + "' + 1 + '" \
+    WHERE rank.User_id = "' + id + '"';
 
     var query = db.query(sql_data, function (err, result) {
         if (err) {
@@ -16,7 +21,7 @@ router.get("/getAll", function (req, res, next) {
                 "results":
                     {
                         "status": 403,
-                        "message": 'An error as occurred, try again later'
+                        "message" : 'User does not exist'
                     }
             });
             res.end();
@@ -26,7 +31,7 @@ router.get("/getAll", function (req, res, next) {
                 "results":
                     {
                         "status": 200,
-                        "data": result
+                        "message" : 'Number of win has been changed successfully'
                     }
             });
             res.end();

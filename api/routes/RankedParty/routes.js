@@ -4,8 +4,8 @@ const router = require('express').Router();
 ** Route /rankedParty handler
 */
 
-app.put('/win', require('./win'));
-app.put('/equality', require('./equality'));
-app.put('/defeat', require('./defeat'));
+router.put('/win', require('./win'));
+router.put('/equality', require('./equality'));
+router.put('/defeat', require('./defeat'));
 
 module.exports = router;

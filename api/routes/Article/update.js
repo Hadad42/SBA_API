@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.put("/article/update", function (req, res, next) {
+router.put("/update", function (req, res, next) {
     var article_id = req.body.id;
     var title = req.body.title;
     var description = req.body.description;

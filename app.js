@@ -78,6 +78,7 @@ app.post('/signin', con_handler);
 
 app.use('/forum', require('./api/routes/forum/routes'));
 app.use('/cards', require('./api/routes/card/routes'));
+app.use('/decks', require('./api/routes/deck/routes'));
 app.use('/booster', require('./api/routes/booster/routes'));
 
 

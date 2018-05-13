@@ -20,7 +20,7 @@ var check_args = function (req, res, next) {
         console.log("Parameters missing");
         return res.status(403).send(JSON.parse('{"results": { "status": 403, "message": "One or more parameter is missing"}} '));
     }
-    if (isNaN(player_id)){
+    if (isNaN(body.hero_id)){
         res.status(403).send(JSON.parse('{"results": { "status": 403, "message": "hero_id parameter is not a number"}} '));
         res.end();
     }

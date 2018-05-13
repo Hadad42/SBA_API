@@ -3,7 +3,7 @@ var router = express.Router();
 var jwt_handler = require('../../controllers/check_jwt');
 router.use(jwt_handler);
 
-router.get('/', function (req, res, next) {
+router.get('/getAll', function (req, res, next) {
     var player_id = req.decoded_data.Id;
     console.log("id est", player_id);
     var ret = {
